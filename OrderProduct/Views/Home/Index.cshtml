@@ -1,0 +1,21 @@
+﻿@model CategoryViewModel
+<div class="container">
+    @if (Model.CategoryItems.Any())
+    {
+        <div class="row">
+            @foreach (var catItem in Model.CategoryItems)
+            {
+                <div class="col-md-4">
+                    <partial name="_product" for="@catItem" />
+                </div>
+            }
+        </div>
+        
+    }
+    else
+    {
+        <div class="row">
+            No Proucts
+        </div>
+    }
+</div>

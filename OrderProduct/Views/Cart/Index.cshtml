@@ -1,0 +1,83 @@
+﻿
+@model CartViewModel
+
+<div class="container">
+
+    @if (Model.Items.Any())
+    {
+        @using (Html.BeginForm("OnPost", "Checkout", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    @for (int i = 0; i < Model.Items.Count; i++)
+                    {
+                        var item = Model.Items[i];
+
+
+                        <tr>
+                            <td>
+                                @item.ProductName
+                            </td>
+                            <td>
+                                $ @item.UnitPrice.ToString("N2")
+                            </td>
+                            <td>
+                                <section class="col-xs-2">
+                                    <input type="hidden" name="@("Items[" + i + "].Key")" value="@item.Id" />
+                                    <input type="number" min="1" name="@("Items[" + i + "].Value")" value="@item.UnitQuantity" />
+                                </section>
+                            </td>
+                            <td>
+                                @Math.Round(item.UnitQuantity * item.UnitPrice, 2).ToString("N2")
+                            </td>
+
+                        </tr>
+
+
+                    }
+                <tbody>
+            </table>
+            <div class="container">
+                <article class="row">
+                    <section class="col-xs-10"></section>
+                    <section class="col-xs-2">Total</section>
+                </article>
+
+                <article class="row">
+                    <section class="col-xs-10"></section>
+                    <section class="col-xs-2">$ @Model.Total().ToString("N2")</section>
+                </article>
+
+                <article class="row">
+                    <section class="col-xs-7"></section>
+
+                </article>
+            </div>
+            <section class="col-xs-4">
+                <button class="btn" name="upd" value="" type="submit" formaction="OnPostUpdate">
+                    Update
+                </button>
+                <input type="submit" class="btn" value="CheckOut" name="action" />
+            </section>
+
+
+        }
+    }
+    else
+    {
+        <div class="row">
+            Cart is empty.
+        </div>
+    }
+
+</div>
